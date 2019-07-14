@@ -2,7 +2,7 @@ class Background {
     constructor(ctx, w, h) {
         this.ctx = ctx
         this.width = window.innerWidth * .98
-        this.height = this.height = window.innerHeight * .98
+        this.height = window.innerHeight * .98
 
         this.image = new Image()
         this.image.src = "ground_shaker_asset/RockBG.png"
