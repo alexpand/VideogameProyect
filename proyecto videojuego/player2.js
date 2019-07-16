@@ -1,5 +1,5 @@
 class Redtank {
-    constructor(ctx, w, h, keysRed) {
+    constructor(ctx, w, h, keysRed, redTankLife) {
         this.ctx = ctx
         this.gameWidth = w
         this.gameHeight = h
@@ -19,6 +19,8 @@ class Redtank {
 
         this.tankVision = "S"
 
+        this.redTankLife = redTankLife
+
         this.setListeners()
 
     }
@@ -37,10 +39,31 @@ class Redtank {
             switch (e.keyCode) {
 
                 case this.keysRed.on:
-                    if (this.tankVision == "S") { this.posY += 10 }
-                    else if (this.tankVision == "W") { this.posX += - 10 }
-                    else if (this.tankVision == "E") { this.posX += 10 }
-                    else { this.posY -= 10 } break;
+                    if (this.tankVision == "N") {
+                        if (Game.collissionRedMap(0, -10) ||
+                            Game.collisionRedObstacle(0, -10) ||
+                            Game.collisionBetweenTanksRed(0, -10)) {
+                        } else { this.posY -= 10 }
+                    }
+                    else if (this.tankVision == "W") {
+                        if (Game.collissionRedMap(-10, 0) ||
+                            Game.collisionRedObstacle(-10, 0) ||
+                            Game.collisionBetweenTanksRed(-10, 0)) {
+                        } else { this.posX -= 10 }
+                    } else if (this.tankVision == "E") {
+                        if (Game.collissionRedMap(10, 0) ||
+                            Game.collisionRedObstacle(10, 0) ||
+                            Game.collisionBetweenTanksRed(10, 0)) {
+                        } else { this.posX += 10 }
+                    } else if (this.tankVision == "S") {
+                        if (Game.collissionRedMap(0, 10) ||
+                            Game.collisionRedObstacle(0, 10) ||
+                            Game.collisionBetweenTanksRed(0, 10)) {
+
+                        } else {
+                            this.posY += 10
+                        }
+                    } break;
 
                 case this.keysRed.right:
                     if (this.tankVision == "S") { this.tankVision = "E", this.imageSouth.src = "ground_shaker_asset/tanks/redtankeast.png" }
@@ -73,3 +96,9 @@ class Redtank {
         this.redbullets.push(new Redbullets(this.ctx, this.posX, this.posY, this.posY0, this.height, this.tankVision))
     }
 }
+
+// case this.keysRed.on:
+//         if (this.tankVision == "S") { this.posY += 10 }
+//         else if (this.tankVision == "W") { this.posX += - 10 }
+//         else if (this.tankVision == "E") { this.posX += 10 }
+//         else { this.posY -= 10 } break;

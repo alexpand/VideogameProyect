@@ -4,6 +4,8 @@ const Game = {
     width: undefined,
     height: undefined,
     fps: 60,
+    redTankLife: 5,
+    blueTankLife: 5,
     keysBlue: {
         on: 87,
         back: 83,
@@ -62,38 +64,65 @@ const Game = {
         this.redtank.move()
     },
 
-    collisionBetweenTanks() {
-        if (this.bluetank.posY <= this.redtank.posY + this.redtank.height &&
-            this.bluetank.posY + this.bluetank.height >= this.redtank.posY &&
-            this.bluetank.posX + this.bluetank.width >= this.redtank.posX &&
-            this.bluetank.posX <= this.redtank.posX + this.redtank.width) {
-            console.log("Collision between tanks")
+    collisionBetweenTanksBlue(nextX, nextY) {
+        if (this.bluetank.posY + nextY - 5 <= this.redtank.posY + this.redtank.height &&
+            this.bluetank.posY + this.bluetank.height + nextY + 5 >= this.redtank.posY &&
+            this.bluetank.posX + this.bluetank.width + nextX >= this.redtank.posX &&
+            this.bluetank.posX + nextX <= this.redtank.posX + this.redtank.width) {
+            return true
+        } else {
+            return false
         }
     },
 
-    collisionBlue() {
-        if (this.bluetank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
-            this.bluetank.posY + this.bluetank.height >= this.obstacles.posY - 10 &&
-            this.bluetank.posX + this.bluetank.width >= this.obstacles.posX - 10 &&
-            this.bluetank.posX <= this.obstacles.posX + this.obstacles.width + 10) {
-            console.log("Collision tankblue to obstacle")
-
-        } else if (this.bluetank.posX < 0 || this.bluetank.posX + this.bluetank.width > this.width ||
-            this.bluetank.posY < 0 || this.bluetank.posY + this.bluetank.height > this.height) {
-            console.log("tankblue out of map")
+    collisionBlueObstacle(nextX, nextY) {
+        if (this.bluetank.posY + nextY <= this.obstacles.posY - 10 + this.obstacles.height + 10 &&
+            this.bluetank.posY + nextY + this.bluetank.height >= this.obstacles.posY - 10 &&
+            this.bluetank.posX + nextX + this.bluetank.width >= this.obstacles.posX - 10 &&
+            this.bluetank.posX + nextX + 10 <= this.obstacles.posX + this.obstacles.width + 10) {
+            return true
+        } else {
+            return false
         }
     },
 
-    collisionRed() {
-        if (this.redtank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
-            this.redtank.posY + this.redtank.height >= this.obstacles.posY - 10 &&
-            this.redtank.posX + this.redtank.width >= this.obstacles.posX - 10 &&
-            this.redtank.posX <= this.obstacles.posX + this.obstacles.width + 10) {
-            console.log("Collision tankred to obstacle")
+    collissionBlueMap(nextX, nextY) {
+        if (this.bluetank.posX + nextX < 0 || this.bluetank.posX + this.bluetank.width + nextX > this.width ||
+            this.bluetank.posY + nextY < 0 || this.bluetank.posY + this.bluetank.height + nextY > this.height) {
+            return true
+        } else {
+            return false
+        }
+    },
 
-        } else if (this.redtank.posX < 0 || this.redtank.posX + this.redtank.width > this.width ||
-            this.redtank.posY < 0 || this.redtank.posY + this.redtank.height > this.height) {
-            console.log("tankred out of map")
+    collisionBetweenTanksRed(nextX, nextY) {
+        if (this.bluetank.posY + nextY - 20 <= this.redtank.posY + this.redtank.height &&
+            this.bluetank.posY + this.bluetank.height + nextY + 30 >= this.redtank.posY &&
+            this.bluetank.posX + this.bluetank.width + nextX + 20 >= this.redtank.posX &&
+            this.bluetank.posX + nextX - 20 <= this.redtank.posX + this.redtank.width) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    collisionRedObstacle(nextX, nextY) {
+        if (this.redtank.posY + nextY <= this.obstacles.posY + this.obstacles.height &&
+            this.redtank.posY + this.redtank.height + nextY >= this.obstacles.posY - 10 &&
+            this.redtank.posX + this.redtank.width + nextX >= this.obstacles.posX - 10 &&
+            this.redtank.posX + nextX <= this.obstacles.posX + this.obstacles.width) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    collissionRedMap(nextX, nextY) {
+        if (this.redtank.posX + nextX < 0 || this.redtank.posX + this.redtank.width + nextX > this.width ||
+            this.redtank.posY + nextY < 0 || this.redtank.posY + this.redtank.height + nextY > this.height) {
+            return true
+        } else {
+            return false
         }
     },
 
@@ -104,6 +133,11 @@ const Game = {
                 bullets.posX + bullets.radius >= this.redtank.posX - 20 &&
                 bullets.posX - bullets.radius <= (this.redtank.posX + this.redtank.width) - 20) {
                 this.bluetank.blueBullets.splice(idx, 1)
+                this.redTankLife--
+                if (this.redTankLife <= 0) {
+                    console.log("Blue Tank Wins!!")
+                    this.gameOver()
+                }
             }
         })
 
@@ -113,6 +147,11 @@ const Game = {
                 bullets.posX + bullets.radius >= this.bluetank.posX &&
                 bullets.posX - bullets.radius <= this.bluetank.posX + this.bluetank.width) {
                 this.redtank.redbullets.splice(idx, 1)
+                this.blueTankLife--
+                if (this.blueTankLife <= 0) {
+                    console.log("Red Tank Wins!!")
+                    this.gameOver()
+                }
             }
         })
 
@@ -146,6 +185,10 @@ const Game = {
             }
         })
     },
+
+    gameOver: function () {
+        clearInterval(this.interval)
+    }
 }
 
 
