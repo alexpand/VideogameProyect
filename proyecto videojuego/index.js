@@ -1,3 +1,8 @@
 window.onload = () => {
-    Game.init()
+    let start = document.getElementById("start")
+
+    start.onclick = () => {
+        start.className = "out"
+        Game.init()
+    }
 }

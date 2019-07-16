@@ -1,0 +1,21 @@
+.start-style {
+    color: #fff;
+    font-size: 25px;
+    background-color: black;
+    border-color: black;
+    display: block;
+    margin: 47px auto;
+    padding: 10px;
+    border-radius: 5%;
+    width: 200px;
+    height: 50px;
+}
+
+body{
+    background: url('ground_shaker_asset/freepikbg.jpg') no-repeat center
+}
+
+.out{
+    display: none;
+}
+

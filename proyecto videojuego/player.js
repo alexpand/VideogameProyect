@@ -83,10 +83,31 @@ class Bluetank {
                     break;
 
                 case this.keysBlue.back:
-                    if (this.tankVision == "N") { this.posY += 10 }
-                    else if (this.tankVision == "W") { this.posX += 10 }
-                    else if (this.tankVision == "E") { this.posX -= 10 }
-                    else { this.posY -= 10 } break;
+                    if (this.tankVision == "N") {
+                        if (Game.collissionBlueMap(0, 10) ||
+                            Game.collisionBlueObstacle(0, 10) ||
+                            Game.collisionBetweenTanksBlue(0, 10)) {
+                        } else { this.posY += 10 }
+                    }
+                    else if (this.tankVision == "W") {
+                        if (Game.collissionBlueMap(10, 0) ||
+                            Game.collisionBlueObstacle(10, 0) ||
+                            Game.collisionBetweenTanksBlue(10, 0)) {
+                        } else { this.posX += 10 }
+                    } else if (this.tankVision == "E") {
+                        if (Game.collissionBlueMap(-10, 0) ||
+                            Game.collisionBlueObstacle(-10, 0) ||
+                            Game.collisionBetweenTanksBlue(-10, 0)) {
+                        } else { this.posX -= 10 }
+                    } else if (this.tankVision == "S") {
+                        if (Game.collissionBlueMap(0, -10) ||
+                            Game.collisionBlueObstacle(0, -10) ||
+                            Game.collisionBetweenTanksBlue(0, -10)) {
+
+                        } else {
+                            this.posY -= 10
+                        }
+                    } break;
 
                 case this.keysBlue.shoot:
                     this.shoot();
