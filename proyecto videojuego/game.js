@@ -40,7 +40,8 @@ const Game = {
             this.drawAll()
             this.moveAll()
             this.clearBullets()
-            this.isCollision()
+            this.tankDamage()
+            this.tankCollision()
         }, 1000 / this.fps)
     },
 
@@ -62,26 +63,67 @@ const Game = {
         this.redtank.move()
     },
 
-    isCollision() {
+    tankCollision() {
 
-        if (this.bluetank.posX + this.bluetank.width >= this.obstacles.posX
-            && this.bluetank.posY + this.bluetank.height >= this.obstacles.posY
-            && this.bluetank.posX <= this.obstacles.posX + this.obstacles.width) {
+        if (this.bluetank.posY <= this.redtank.posY + this.redtank.height &&
+            this.bluetank.posY + this.bluetank.height >= this.redtank.posY &&
+            this.bluetank.posX + this.bluetank.width >= this.redtank.posX &&
+            this.bluetank.posX <= this.redtank.posX + this.redtank.width) {
+            console.log("Collision between tanks")
 
+        } else if (this.bluetank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
+            this.bluetank.posY + this.bluetank.height >= this.obstacles.posY - 10 &&
+            this.bluetank.posX + this.bluetank.width >= this.obstacles.posX - 10 &&
+            this.bluetank.posX <= this.obstacles.posX + this.obstacles.width + 10) {
+            console.log("Collision tankblue to obstacle")
+
+        } else if (this.redtank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
+            this.redtank.posY + this.redtank.height >= this.obstacles.posY - 10 &&
+            this.redtank.posX + this.redtank.width >= this.obstacles.posX - 10 &&
+            this.redtank.posX <= this.obstacles.posX + this.obstacles.width + 10) {
+            console.log("Collision tankred to obstacle")
         }
-
     },
 
-    clearBullets: function () {
-
+    tankDamage: function () {
         this.bluetank.blueBullets.forEach((bullets, idx) => {
-            if (bullets.posX < 0 || bullets.posX > this.width || bullets.posY < 0 || bullets.posY > this.height) {
+            if (bullets.posY - bullets.radius <= (this.redtank.posY + this.redtank.height) - 30 &&
+                bullets.posY + bullets.radius >= this.redtank.posY - 30 &&
+                bullets.posX + bullets.radius >= this.redtank.posX - 20 &&
+                bullets.posX - bullets.radius <= (this.redtank.posX + this.redtank.width) - 20) {
                 this.bluetank.blueBullets.splice(idx, 1)
             }
         })
 
         this.redtank.redbullets.forEach((bullets, idx) => {
-            if (bullets.posX < 0 || bullets.posX > this.width || bullets.posY < 0 || bullets.posY > this.height) {
+            if (bullets.posY - bullets.radius <= (this.bluetank.posY + this.bluetank.height) + 20 &&
+                bullets.posY + bullets.radius >= this.bluetank.posY + 20 &&
+                bullets.posX + bullets.radius >= this.bluetank.posX &&
+                bullets.posX - bullets.radius <= this.bluetank.posX + this.bluetank.width) {
+                this.redtank.redbullets.splice(idx, 1)
+            }
+        })
+
+    },
+
+    clearBullets: function () {
+
+        this.bluetank.blueBullets.forEach((bullet, idx) => {
+            if (bullet.posX - bullet.radius < 0 - 20 || bullet.posX + bullet.radius > this.width + 20 ||
+                bullet.posY - bullet.radius < 0 - 20 || bullet.posY + bullet.radius > this.height + 20) {
+                this.bluetank.blueBullets.splice(idx, 1)
+
+            } else if (bullet.posY - bullet.radius <= this.obstacles.posY + this.obstacles.height - 30 &&
+                bullet.posY + bullet.radius >= this.obstacles.posY - 30 &&
+                bullet.posX - bullet.radius >= this.obstacles.posX - 40 &&
+                bullet.posX + bullet.radius <= this.obstacles.posX + this.obstacles.width - 15) {
+                this.bluetank.blueBullets.splice(idx, 1)
+            }
+        })
+
+        this.redtank.redbullets.forEach((bullet, idx) => {
+            if (bullet.posX - bullet.radius < 0 - 20 || bullet.posX + bullet.radius > this.width + 20 ||
+                bullet.posY - bullet.radius < 0 - 20 || bullet.posY + bullet.radius > this.height + 20) {
                 this.redtank.redbullets.splice(idx, 1)
             }
         })
@@ -89,15 +131,12 @@ const Game = {
 }
 
 
-// if (this.bluetank.posX + this.bluetank.width >= this.obstacles.posX
-//     && this.bluetank.posY + this.bluetank.height >= this.obstacles.posY
-//     && this.bluetank.posX <= this.obstacles.posX + this.obstacles.width) {
-//     
-// }
-//      console.log("choque")
-// this.bluetank.posX < 234,7744 || máximo ancho lado izquierdo del obstáculo
-// this.bluetank.posX > 734.7744 || máximo ancho lado derecho del obstáculo
-// this.bluetank.posY > 339.6264 || altura del lado bajo del obstáculo
-// this.bluetank.posY < 379.6264 || altura del lado alto del obstáculo
+// colisiones
+        //full bala altoY bullet.posY - bullet.radius
+        //full bala bajoY bullet.posY + bullet.radius
+        //full bala der bullet.posX + bullet.radius
+        //full bala izq bullet.posX - bullet.radius
 
-// (this.bluetank.posX > 234, 7744 && this.bluetank.posX < 734.7744 && this.bluetank.posY > 339.6264 && this.bluetank.posY < 379.6264)
+        // eje y de colision bajo tanke \\ bullet.posY - bullet.radius < redtank.posY + redtank.height && 
+        //eje y de colision alto tanke \\   bullet.posY + bullet.radius > redtank.posY &&
+        // eje x de colision izq tanke \\ bullet.posX - bullet.radius 

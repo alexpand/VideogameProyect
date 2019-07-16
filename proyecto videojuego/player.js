@@ -36,7 +36,7 @@ class Bluetank {
     }
 
     setListeners() {
-        document.addEventListener("keyup", (e) => {
+        document.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
 
                 case this.keysBlue.on:

@@ -33,7 +33,7 @@ class Redtank {
     }
 
     setListeners() {
-        document.addEventListener("keyup", (e) => {
+        document.addEventListener("keydown", (e) => {
             switch (e.keyCode) {
 
                 case this.keysRed.on:
@@ -73,31 +73,3 @@ class Redtank {
         this.redbullets.push(new Redbullets(this.ctx, this.posX, this.posY, this.posY0, this.height, this.tankVision))
     }
 }
-
-// setListeners() {
-//     document.addEventListener("keydown", (e) => {
-//         switch (e.keyCode) {
-
-//             case this.keysRed.on:
-//                 this.posY += 10;
-//                 break;
-
-//             case this.keysRed.back:
-//                 this.posY += - 10;
-//                 break;
-
-//             case this.keysRed.left:
-//                 this.posX += 10;
-//                 break;
-
-//             case this.keysRed.right:
-//                 this.posX += -10;
-//                 break;
-
-//             case this.keysRed.shoot:
-//                 this.shoot()
-//                 break;
-
-//         }
-//     })
-// }
