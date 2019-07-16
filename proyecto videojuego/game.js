@@ -125,6 +125,12 @@ const Game = {
             if (bullet.posX - bullet.radius < 0 - 20 || bullet.posX + bullet.radius > this.width + 20 ||
                 bullet.posY - bullet.radius < 0 - 20 || bullet.posY + bullet.radius > this.height + 20) {
                 this.redtank.redbullets.splice(idx, 1)
+
+            } else if (bullet.posY - bullet.radius <= this.obstacles.posY + this.obstacles.height + 20 &&
+                bullet.posY + bullet.radius >= this.obstacles.posY + 20 &&
+                bullet.posX - bullet.radius >= this.obstacles.posX - 20 &&
+                bullet.posX + bullet.radius <= this.obstacles.posX + this.obstacles.width + 10) {
+                this.redtank.redbullets.splice(idx, 1)
             }
         })
     },
