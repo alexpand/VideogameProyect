@@ -41,7 +41,6 @@ const Game = {
             this.moveAll()
             this.clearBullets()
             this.tankDamage()
-            this.tankCollision()
         }, 1000 / this.fps)
     },
 
@@ -63,25 +62,38 @@ const Game = {
         this.redtank.move()
     },
 
-    tankCollision() {
-
+    collisionBetweenTanks() {
         if (this.bluetank.posY <= this.redtank.posY + this.redtank.height &&
             this.bluetank.posY + this.bluetank.height >= this.redtank.posY &&
             this.bluetank.posX + this.bluetank.width >= this.redtank.posX &&
             this.bluetank.posX <= this.redtank.posX + this.redtank.width) {
             console.log("Collision between tanks")
+        }
+    },
 
-        } else if (this.bluetank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
+    collisionBlue() {
+        if (this.bluetank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
             this.bluetank.posY + this.bluetank.height >= this.obstacles.posY - 10 &&
             this.bluetank.posX + this.bluetank.width >= this.obstacles.posX - 10 &&
             this.bluetank.posX <= this.obstacles.posX + this.obstacles.width + 10) {
             console.log("Collision tankblue to obstacle")
 
-        } else if (this.redtank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
+        } else if (this.bluetank.posX < 0 || this.bluetank.posX + this.bluetank.width > this.width ||
+            this.bluetank.posY < 0 || this.bluetank.posY + this.bluetank.height > this.height) {
+            console.log("tankblue out of map")
+        }
+    },
+
+    collisionRed() {
+        if (this.redtank.posY <= this.obstacles.posY + this.obstacles.height + 10 &&
             this.redtank.posY + this.redtank.height >= this.obstacles.posY - 10 &&
             this.redtank.posX + this.redtank.width >= this.obstacles.posX - 10 &&
             this.redtank.posX <= this.obstacles.posX + this.obstacles.width + 10) {
             console.log("Collision tankred to obstacle")
+
+        } else if (this.redtank.posX < 0 || this.redtank.posX + this.redtank.width > this.width ||
+            this.redtank.posY < 0 || this.redtank.posY + this.redtank.height > this.height) {
+            console.log("tankred out of map")
         }
     },
 
