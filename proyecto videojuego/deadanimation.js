@@ -16,8 +16,10 @@ class DeadAnimation {
         this.posX = tankPosX
         this.posY = tankPosY
 
-        this.width = 120
-        this.height = 120
+        this.width = 200
+        this.height = 250
+
+        this.explosion = document.getElementById("explosion")
     }
 
     draw(framesCounter) {
@@ -27,8 +29,8 @@ class DeadAnimation {
             0,
             Math.floor(this.image.width / this.image.frames),
             this.image.height,
-            this.posX - 30,
-            this.posY - 30,
+            this.posX - 80,
+            this.posY - 90,
             this.width,
             this.height)
 
@@ -38,9 +40,11 @@ class DeadAnimation {
 
     animate(framesCounter) {
 
-        if (framesCounter % 1 == 0) {
+        if (framesCounter % 10 == 0) {
+            this.explosion.play()
             this.image.framesIndex++
             if (this.image.framesIndex > 5) {
+                Game.gameOver()
                 this.image.framesIndex = 0
             }
         }

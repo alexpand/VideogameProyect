@@ -1,5 +1,5 @@
 class Bluetank {
-    constructor(ctx, w, h, keysBlue, blueTankLife) {
+    constructor(ctx, w, h, keysBlue) {
         this.ctx = ctx
         this.gameWidth = w
         this.gameHeight = h
@@ -20,7 +20,7 @@ class Bluetank {
 
         this.tankVision = "N"
 
-        this.blueTankLife = blueTankLife
+        this.blueTankLife = 5
 
         this.blueBullets = []
 
@@ -32,6 +32,15 @@ class Bluetank {
     draw() {
         this.ctx.drawImage(this.imageNorth, this.posX, this.posY, this.width, this.height)
         this.blueBullets.forEach(bullet => bullet.draw())
+    }
+
+    drawBlueLife() {
+        this.ctx.font = "20px sans-serif"
+
+        this.ctx.fillStyle = "yellow";
+        this.ctx.fillText("Blue Tank Life: " + this.blueTankLife, 50, 20);
+
+
     }
 
     move() {

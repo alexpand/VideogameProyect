@@ -1,5 +1,5 @@
 class Redtank {
-    constructor(ctx, w, h, keysRed, redTankLife) {
+    constructor(ctx, w, h, keysRed) {
         this.ctx = ctx
         this.gameWidth = w
         this.gameHeight = h
@@ -22,7 +22,7 @@ class Redtank {
 
         this.tankVision = "S"
 
-        this.redTankLife = redTankLife
+        this.redTankLife = 5
 
         this.setListeners()
 
@@ -32,6 +32,14 @@ class Redtank {
     draw() {
         this.ctx.drawImage(this.imageSouth, this.posX, this.posY, this.width, this.height)
         this.redbullets.forEach(bullet => bullet.draw())
+    }
+
+    drawRedTankLife() {
+        this.ctx.font = "20px sans-serif"
+
+        this.ctx.fillStyle = "yellow";
+        this.ctx.fillText("Red Tank Life: " + this.redTankLife, 1210, 20);
+
     }
 
     move() {
