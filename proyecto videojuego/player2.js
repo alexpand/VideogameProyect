@@ -9,6 +9,9 @@ class Redtank {
         this.imageSouth = new Image()
         this.imageSouth.src = "ground_shaker_asset/tanks/redtanksouth.png"
 
+        this.tankVel = 15
+        this.tankVelBack = 10
+
         this.width = 50
         this.height = 60
 
@@ -23,6 +26,7 @@ class Redtank {
 
         this.setListeners()
 
+        this.shootSound = document.getElementById("shoot")
     }
 
     draw() {
@@ -35,7 +39,7 @@ class Redtank {
     }
 
     setListeners() {
-        document.addEventListener("keydown", (e) => {
+        document.addEventListener("keyup", (e) => {
             switch (e.keyCode) {
 
                 case this.keysRed.on:
@@ -43,25 +47,25 @@ class Redtank {
                         if (Game.collissionRedMap(0, -10) ||
                             Game.collisionRedObstacle(0, -10) ||
                             Game.collisionBetweenTanksRed(0, -10)) {
-                        } else { this.posY -= 10 }
+                        } else { this.posY -= this.tankVel }
                     }
                     else if (this.tankVision == "W") {
                         if (Game.collissionRedMap(-10, 0) ||
                             Game.collisionRedObstacle(-10, 0) ||
                             Game.collisionBetweenTanksRed(-10, 0)) {
-                        } else { this.posX -= 10 }
+                        } else { this.posX -= this.tankVel }
                     } else if (this.tankVision == "E") {
                         if (Game.collissionRedMap(10, 0) ||
                             Game.collisionRedObstacle(10, 0) ||
                             Game.collisionBetweenTanksRed(10, 0)) {
-                        } else { this.posX += 10 }
+                        } else { this.posX += this.tankVel }
                     } else if (this.tankVision == "S") {
                         if (Game.collissionRedMap(0, 10) ||
                             Game.collisionRedObstacle(0, 10) ||
                             Game.collisionBetweenTanksRed(0, 10)) {
 
                         } else {
-                            this.posY += 10
+                            this.posY += this.tankVel
                         }
                     } break;
 
@@ -84,30 +88,31 @@ class Redtank {
                         if (Game.collissionRedMap(0, 10) ||
                             Game.collisionRedObstacle(0, 10) ||
                             Game.collisionBetweenTanksRed(0, 10)) {
-                        } else { this.posY += 10 }
+                        } else { this.posY += this.tankVelBack }
                     }
                     else if (this.tankVision == "W") {
                         if (Game.collissionRedMap(10, 0) ||
                             Game.collisionRedObstacle(10, 0) ||
                             Game.collisionBetweenTanksRed(10, 0)) {
-                        } else { this.posX += 10 }
+                        } else { this.posX += this.tankVelBack }
                     } else if (this.tankVision == "E") {
                         if (Game.collissionRedMap(-10, 0) ||
                             Game.collisionRedObstacle(-10, 0) ||
                             Game.collisionBetweenTanksRed(-10, 0)) {
-                        } else { this.posX -= 10 }
+                        } else { this.posX -= this.tankVelBack }
                     } else if (this.tankVision == "S") {
                         if (Game.collissionRedMap(0, -10) ||
                             Game.collisionRedObstacle(0, -10) ||
                             Game.collisionBetweenTanksRed(0, -10)) {
 
                         } else {
-                            this.posY -= 10
+                            this.posY -= this.tankVelBack
                         }
                     } break;
 
                 case this.keysRed.shoot:
                     this.shoot();
+                    this.shootSound.play()
                     break;
             }
         })
@@ -117,9 +122,3 @@ class Redtank {
         this.redbullets.push(new Redbullets(this.ctx, this.posX, this.posY, this.posY0, this.height, this.tankVision))
     }
 }
-
-// case this.keysRed.on:
-//         if (this.tankVision == "S") { this.posY += 10 }
-//         else if (this.tankVision == "W") { this.posX += - 10 }
-//         else if (this.tankVision == "E") { this.posX += 10 }
-//         else { this.posY -= 10 } break;

@@ -6,6 +6,7 @@ const Game = {
     fps: 60,
     redTankLife: 5,
     blueTankLife: 5,
+    framesCounter: 0,
     keysBlue: {
         on: 87,
         back: 83,
@@ -37,8 +38,11 @@ const Game = {
     start: function () {
         this.reset()
 
-
         this.interval = setInterval(() => {
+            this.framesCounter++
+
+            if (this.framesCounter > 1000) this.framesCounter = 0
+
             this.drawAll()
             this.moveAll()
             this.clearBullets()
@@ -57,6 +61,8 @@ const Game = {
         this.obstacles.draw()
         this.bluetank.draw()
         this.redtank.draw()
+        if (this.deadanimation) this.deadanimation.draw()
+
     },
 
     moveAll() {
@@ -135,8 +141,10 @@ const Game = {
                 this.bluetank.blueBullets.splice(idx, 1)
                 this.redTankLife--
                 if (this.redTankLife <= 0) {
+                    this.deadanimation = new DeadAnimation(this.ctx, this.width, this.height, this.redtank.posX, this.redtank.posY)
+
                     console.log("Blue Tank Wins!!")
-                    this.gameOver()
+
                 }
             }
         })
@@ -149,8 +157,9 @@ const Game = {
                 this.redtank.redbullets.splice(idx, 1)
                 this.blueTankLife--
                 if (this.blueTankLife <= 0) {
+                    this.deadanimation = new DeadAnimation(this.ctx, this.width, this.height, this.bluetank.posX, this.bluetank.posY)
                     console.log("Red Tank Wins!!")
-                    this.gameOver()
+
                 }
             }
         })
@@ -190,14 +199,3 @@ const Game = {
         clearInterval(this.interval)
     }
 }
-
-
-// colisiones
-        //full bala altoY bullet.posY - bullet.radius
-        //full bala bajoY bullet.posY + bullet.radius
-        //full bala der bullet.posX + bullet.radius
-        //full bala izq bullet.posX - bullet.radius
-
-        // eje y de colision bajo tanke \\ bullet.posY - bullet.radius < redtank.posY + redtank.height && 
-        //eje y de colision alto tanke \\   bullet.posY + bullet.radius > redtank.posY &&
-        // eje x de colision izq tanke \\ bullet.posX - bullet.radius 
