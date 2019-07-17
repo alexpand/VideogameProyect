@@ -9,7 +9,7 @@ class Bluetank {
         this.imageNorth = new Image()
         this.imageNorth.src = "ground_shaker_asset/tanks/bluetanknorth.png"
 
-        this.tankVel = 15
+        this.tankVel = 20
         this.tankVelBack = 10
 
         this.width = 50
@@ -44,25 +44,25 @@ class Bluetank {
             switch (e.keyCode) {
                 case this.keysBlue.on:
                     if (this.tankVision == "N") {
-                        if (Game.collissionBlueMap(0, -10) ||
-                            Game.collisionBlueObstacle(0, -10) ||
-                            Game.collisionBetweenTanksBlue(0, -10)) {
+                        if (Game.collissionBlueMap(0, -20) ||
+                            Game.collisionBlueObstacle(0, -20) ||
+                            Game.collisionBetweenTanksBlue(0, -20)) {
                         } else { this.posY -= this.tankVel }
                     }
                     else if (this.tankVision == "W") {
-                        if (Game.collissionBlueMap(-10, 0) ||
-                            Game.collisionBlueObstacle(-10, 0) ||
-                            Game.collisionBetweenTanksBlue(-10, 0)) {
+                        if (Game.collissionBlueMap(-20, 0) ||
+                            Game.collisionBlueObstacle(-20, 0) ||
+                            Game.collisionBetweenTanksBlue(-20, 0)) {
                         } else { this.posX -= this.tankVel }
                     } else if (this.tankVision == "E") {
-                        if (Game.collissionBlueMap(10, 0) ||
-                            Game.collisionBlueObstacle(10, 0) ||
-                            Game.collisionBetweenTanksBlue(10, 0)) {
+                        if (Game.collissionBlueMap(20, 0) ||
+                            Game.collisionBlueObstacle(20, 0) ||
+                            Game.collisionBetweenTanksBlue(20, 0)) {
                         } else { this.posX += this.tankVel }
                     } else if (this.tankVision == "S") {
-                        if (Game.collissionBlueMap(0, 10) ||
-                            Game.collisionBlueObstacle(0, 10) ||
-                            Game.collisionBetweenTanksBlue(0, 10)) {
+                        if (Game.collissionBlueMap(0, 20) ||
+                            Game.collisionBlueObstacle(0, 20) ||
+                            Game.collisionBetweenTanksBlue(0, 20)) {
 
                         } else {
                             this.posY += this.tankVel

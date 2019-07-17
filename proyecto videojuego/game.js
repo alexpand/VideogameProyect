@@ -102,10 +102,10 @@ const Game = {
     },
 
     collisionBetweenTanksRed(nextX, nextY) {
-        if (this.bluetank.posY + nextY - 20 <= this.redtank.posY + this.redtank.height &&
+        if (this.bluetank.posY + nextY - 40 <= this.redtank.posY + this.redtank.height &&
             this.bluetank.posY + this.bluetank.height + nextY + 30 >= this.redtank.posY &&
-            this.bluetank.posX + this.bluetank.width + nextX + 20 >= this.redtank.posX &&
-            this.bluetank.posX + nextX - 20 <= this.redtank.posX + this.redtank.width) {
+            this.bluetank.posX + this.bluetank.width + nextX + 40 >= this.redtank.posX &&
+            this.bluetank.posX + nextX - 40 <= this.redtank.posX + this.redtank.width) {
             return true
         } else {
             return false
