@@ -111,9 +111,9 @@ const Game = {
     },
 
     collisionBlueObstacle(nextX, nextY) {
-        if (this.bluetank.posY + nextY <= this.obstacles.posY - 10 + this.obstacles.height + 10 &&
-            this.bluetank.posY + nextY + this.bluetank.height >= this.obstacles.posY - 10 &&
-            this.bluetank.posX + nextX + this.bluetank.width >= this.obstacles.posX - 10 &&
+        if (this.bluetank.posY + nextY <= this.obstacles.posY - 10 + this.obstacles.height + 5 &&
+            this.bluetank.posY + nextY + this.bluetank.height >= this.obstacles.posY - 5 &&
+            this.bluetank.posX + nextX + this.bluetank.width >= this.obstacles.posX - 5 &&
             this.bluetank.posX + nextX + 10 <= this.obstacles.posX + this.obstacles.width + 10) {
             return true
         } else {
