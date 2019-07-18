@@ -20,8 +20,6 @@ class Bluetank {
 
         this.tankVision = "N"
 
-        this.blueTankLife = 5
-
         this.blueBullets = []
 
         this.setListeners()
@@ -38,8 +36,7 @@ class Bluetank {
         this.ctx.font = "20px sans-serif"
 
         this.ctx.fillStyle = "yellow";
-        this.ctx.fillText("Blue Tank Life: " + this.blueTankLife, 50, 20);
-
+        this.ctx.fillText("Blue Tank Life: " + Game.blueTankLife, 50, 20);
 
     }
 
@@ -49,8 +46,8 @@ class Bluetank {
 
     setListeners() {
         document.addEventListener("keyup", (e) => {
-
             switch (e.keyCode) {
+
                 case this.keysBlue.on:
                     if (this.tankVision == "N") {
                         if (Game.collissionBlueMap(0, -20) ||
@@ -131,5 +128,4 @@ class Bluetank {
     shoot() {
         this.blueBullets.push(new Bluebullets(this.ctx, this.posX, this.posY, this.posY0, this.height, this.tankVision))
     }
-
 }

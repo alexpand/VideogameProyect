@@ -22,8 +22,6 @@ class Redtank {
 
         this.tankVision = "S"
 
-        this.redTankLife = 5
-
         this.setListeners()
 
         this.shootSound = document.getElementById("shoot")
@@ -38,7 +36,7 @@ class Redtank {
         this.ctx.font = "20px sans-serif"
 
         this.ctx.fillStyle = "yellow";
-        this.ctx.fillText("Red Tank Life: " + this.redTankLife, 1210, 20);
+        this.ctx.fillText("Red Tank Life: " + Game.redTankLife, 1210, 20);
 
     }
 

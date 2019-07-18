@@ -47,6 +47,7 @@ const Game = {
             this.moveAll()
             this.clearBullets()
             this.tankDamage()
+            this.drawWinner(this.winner)
         }, 1000 / this.fps)
     },
 
@@ -55,6 +56,7 @@ const Game = {
         this.obstacles = new Obstacles(this.ctx, this.width, this.height)
         this.bluetank = new Bluetank(this.ctx, this.width, this.height, this.keysBlue)
         this.redtank = new Redtank(this.ctx, this.width, this.height, this.keysRed)
+        this.winner = undefined
     },
 
     drawAll() {
@@ -65,6 +67,21 @@ const Game = {
         this.redtank.draw()
         this.redtank.drawRedTankLife()
         if (this.deadanimation) this.deadanimation.draw(this.framesCounter)
+
+
+    },
+
+    drawWinner(winner) {
+        if (winner == this.bluetank) {
+            this.ctx.font = "100px sans-serif"
+            this.ctx.fillStyle = "white";
+            this.ctx.fillText("Blue Tank Won!!", (this.width / 2) - 350, this.height / 2)
+        }
+        else if (winner == this.redtank) {
+            this.ctx.font = "100px sans-serif"
+            this.ctx.fillStyle = "white";
+            this.ctx.fillText("Red Tank Won!!", (this.width / 2) - 350, this.height / 2)
+        }
 
     },
 
@@ -142,9 +159,10 @@ const Game = {
                 bullets.posX + bullets.radius >= this.redtank.posX - 20 &&
                 bullets.posX - bullets.radius <= (this.redtank.posX + this.redtank.width) - 20) {
                 this.bluetank.blueBullets.splice(idx, 1)
-                this.redTankLife--
-                if (this.redTankLife == 0) {
+                if (this.redTankLife > 0) this.redTankLife--
+                else if (this.redTankLife == 0) {
                     this.deadanimation = new DeadAnimation(this.ctx, this.width, this.height, this.redtank.posX, this.redtank.posY)
+                    this.winner = this.bluetank
                 }
             }
         })
@@ -155,9 +173,10 @@ const Game = {
                 bullets.posX + bullets.radius >= this.bluetank.posX &&
                 bullets.posX - bullets.radius <= this.bluetank.posX + this.bluetank.width) {
                 this.redtank.redbullets.splice(idx, 1)
-                this.blueTankLife--
-                if (this.blueTankLife == 0) {
+                if (this.blueTankLife > 0) this.blueTankLife--
+                else if (this.blueTankLife == 0) {
                     this.deadanimation = new DeadAnimation(this.ctx, this.width, this.height, this.bluetank.posX, this.bluetank.posY)
+                    this.winner = this.redtank
                 }
             }
         })
@@ -195,7 +214,11 @@ const Game = {
 
     gameOver: function () {
         let audioTheme = document.getElementById("theme")
+        let winTheme = document.getElementById("win")
+
         audioTheme.pause()
+        winTheme.play()
         clearInterval(this.interval)
+
     }
 }
