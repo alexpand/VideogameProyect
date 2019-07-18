@@ -52,27 +52,36 @@ class Bluetank {
                     if (this.tankVision == "N") {
                         if (Game.collissionBlueMap(0, -20) ||
                             Game.collisionBlueObstacle(0, -20) ||
-                            Game.collisionBetweenTanksBlue(0, -20)) {
-                        } else { this.posY -= this.tankVel }
+                            Game.collisionBetweenTanksBlue(0, -20) ||
+                            Game.collisionBlueObstacleArr(0, -20)) {
+                            console.log("colision")
+                        }
+                        else {
+
+                            this.posY -= this.tankVel
+                        }
                     }
                     else if (this.tankVision == "W") {
                         if (Game.collissionBlueMap(-20, 0) ||
                             Game.collisionBlueObstacle(-20, 0) ||
-                            Game.collisionBetweenTanksBlue(-20, 0)) {
+                            Game.collisionBetweenTanksBlue(-20, 0) ||
+                            Game.collisionBlueObstacleArr(-20, 0)) {
                         } else { this.posX -= this.tankVel }
+
                     } else if (this.tankVision == "E") {
                         if (Game.collissionBlueMap(20, 0) ||
                             Game.collisionBlueObstacle(20, 0) ||
-                            Game.collisionBetweenTanksBlue(20, 0)) {
+                            Game.collisionBetweenTanksBlue(20, 0) ||
+                            Game.collisionBlueObstacleArr(20, 0)) {
                         } else { this.posX += this.tankVel }
+
                     } else if (this.tankVision == "S") {
                         if (Game.collissionBlueMap(0, 20) ||
                             Game.collisionBlueObstacle(0, 20) ||
-                            Game.collisionBetweenTanksBlue(0, 20)) {
+                            Game.collisionBetweenTanksBlue(0, 20) ||
+                            Game.collisionBlueObstacleArr(0, 20)) {
 
-                        } else {
-                            this.posY += this.tankVel
-                        }
+                        } else { this.posY += this.tankVel }
                     } break;
 
                 case this.keysBlue.left:
@@ -90,36 +99,50 @@ class Bluetank {
                     break;
 
                 case this.keysBlue.back:
+                    console.log(Game.collisionBlueObstacle(0, 10))
+                    console.log(Game.collisionBlueObstacleArr(0, 10))
                     if (this.tankVision == "N") {
                         if (Game.collissionBlueMap(0, 10) ||
                             Game.collisionBlueObstacle(0, 10) ||
-                            Game.collisionBetweenTanksBlue(0, 10)) {
-                        } else { this.posY += this.tankVelBack }
+                            Game.collisionBetweenTanksBlue(0, 10) ||
+                            Game.collisionBlueObstacleArr(0, 10)) {
+                            console.log(Game.collisionBlueObstacleArr(0, 10))
+
+                        } else {
+                            this.posY += this.tankVelBack
+                        }
                     }
                     else if (this.tankVision == "W") {
+
                         if (Game.collissionBlueMap(10, 0) ||
                             Game.collisionBlueObstacle(10, 0) ||
-                            Game.collisionBetweenTanksBlue(10, 0)) {
-                        } else { this.posX += this.tankVelBack }
+                            Game.collisionBetweenTanksBlue(10, 0) ||
+                            Game.collisionBlueObstacleArr(10, 0)) {
+
+                        } else {
+                            this.posX += this.tankVelBack
+                        }
+
                     } else if (this.tankVision == "E") {
                         if (Game.collissionBlueMap(-10, 0) ||
                             Game.collisionBlueObstacle(-10, 0) ||
-                            Game.collisionBetweenTanksBlue(-10, 0)) {
+                            Game.collisionBetweenTanksBlue(-10, 0) ||
+                            Game.collisionBlueObstacleArr(-10, 0)) {
+
                         } else { this.posX -= this.tankVelBack }
+
                     } else if (this.tankVision == "S") {
                         if (Game.collissionBlueMap(0, -10) ||
                             Game.collisionBlueObstacle(0, -10) ||
-                            Game.collisionBetweenTanksBlue(0, -10)) {
+                            Game.collisionBetweenTanksBlue(0, -10) ||
+                            Game.collisionBlueObstacleArr(0, -10)) {
 
-                        } else {
-                            this.posY -= this.tankVelBack
-                        }
+                        } else { this.posY -= this.tankVelBack }
                     } break;
 
                 case this.keysBlue.shoot:
                     this.shoot();
                     this.shootSound.play()
-
                     break;
             }
         })

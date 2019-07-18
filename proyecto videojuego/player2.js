@@ -52,27 +52,32 @@ class Redtank {
                     if (this.tankVision == "N") {
                         if (Game.collissionRedMap(0, -20) ||
                             Game.collisionRedObstacle(0, -20) ||
-                            Game.collisionBetweenTanksRed(0, -20)) {
+                            Game.collisionBetweenTanksRed(0, -20) ||
+                            Game.collisionRedObstacleArr(0, -20)) {
                         } else { this.posY -= this.tankVel }
                     }
                     else if (this.tankVision == "W") {
                         if (Game.collissionRedMap(-20, 0) ||
                             Game.collisionRedObstacle(-20, 0) ||
-                            Game.collisionBetweenTanksRed(-20, 0)) {
+                            Game.collisionBetweenTanksRed(-20, 0) ||
+                            Game.collisionRedObstacleArr(-20, 0)) {
+
                         } else { this.posX -= this.tankVel }
                     } else if (this.tankVision == "E") {
                         if (Game.collissionRedMap(20, 0) ||
                             Game.collisionRedObstacle(20, 0) ||
-                            Game.collisionBetweenTanksRed(20, 0)) {
+                            Game.collisionBetweenTanksRed(20, 0) ||
+                            Game.collisionRedObstacleArr(20, 0)) {
+
                         } else { this.posX += this.tankVel }
+
                     } else if (this.tankVision == "S") {
                         if (Game.collissionRedMap(0, 20) ||
                             Game.collisionRedObstacle(0, 20) ||
-                            Game.collisionBetweenTanksRed(0, 20)) {
+                            Game.collisionBetweenTanksRed(0, 20) ||
+                            Game.collisionRedObstacleArr(0, 20)) {
 
-                        } else {
-                            this.posY += this.tankVel
-                        }
+                        } else { this.posY += this.tankVel }
                     } break;
 
                 case this.keysRed.right:
@@ -93,27 +98,33 @@ class Redtank {
                     if (this.tankVision == "N") {
                         if (Game.collissionRedMap(0, 10) ||
                             Game.collisionRedObstacle(0, 10) ||
-                            Game.collisionBetweenTanksRed(0, 10)) {
+                            Game.collisionBetweenTanksRed(0, 10) ||
+                            Game.collisionRedObstacleArr(0, 10)) {
                         } else { this.posY += this.tankVelBack }
                     }
                     else if (this.tankVision == "W") {
                         if (Game.collissionRedMap(10, 0) ||
                             Game.collisionRedObstacle(10, 0) ||
-                            Game.collisionBetweenTanksRed(10, 0)) {
+                            Game.collisionBetweenTanksRed(10, 0) ||
+                            Game.collisionRedObstacleArr(10, 0)) {
+
                         } else { this.posX += this.tankVelBack }
+
                     } else if (this.tankVision == "E") {
                         if (Game.collissionRedMap(-10, 0) ||
                             Game.collisionRedObstacle(-10, 0) ||
-                            Game.collisionBetweenTanksRed(-10, 0)) {
+                            Game.collisionBetweenTanksRed(-10, 0) ||
+                            Game.collisionRedObstacleArr(-10, 0)) {
+
                         } else { this.posX -= this.tankVelBack }
+
                     } else if (this.tankVision == "S") {
                         if (Game.collissionRedMap(0, -10) ||
                             Game.collisionRedObstacle(0, -10) ||
-                            Game.collisionBetweenTanksRed(0, -10)) {
+                            Game.collisionBetweenTanksRed(0, -10) ||
+                            Game.collisionRedObstacleArr(0, -10)) {
 
-                        } else {
-                            this.posY -= this.tankVelBack
-                        }
+                        } else { this.posY -= this.tankVelBack }
                     } break;
 
                 case this.keysRed.shoot:

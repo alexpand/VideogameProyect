@@ -7,6 +7,7 @@ const Game = {
     redTankLife: 5,
     blueTankLife: 5,
     framesCounter: 0,
+    obstaclesarr: [],
     keysBlue: {
         on: 87,
         back: 83,
@@ -21,8 +22,6 @@ const Game = {
         left: 76,
         shoot: 189,
     },
-
-
 
     init: function () {
         this.canvas = document.getElementById("canvas")
@@ -54,6 +53,15 @@ const Game = {
     reset: function () {
         this.background = new Background(this.ctx, this.width, this.height)
         this.obstacles = new Obstacles(this.ctx, this.width, this.height)
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 100, 100))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 300, 100))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 100, 290))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 300, 290))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 100, 500))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 300, 500))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 1200, 130))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 1050, 290))
+        this.obstaclesarr.push(new Obstaclesarr(this.ctx, 1200, 450))
         this.bluetank = new Bluetank(this.ctx, this.width, this.height, this.keysBlue)
         this.redtank = new Redtank(this.ctx, this.width, this.height, this.keysRed)
         this.winner = undefined
@@ -62,6 +70,7 @@ const Game = {
     drawAll() {
         this.background.draw()
         this.obstacles.draw()
+        this.obstaclesarr.forEach(obs => obs.draw())
         this.bluetank.draw()
         this.bluetank.drawBlueLife()
         this.redtank.draw()
@@ -112,6 +121,19 @@ const Game = {
         }
     },
 
+    collisionBlueObstacleArr: function (nextX, nextY) {
+        return this.obstaclesarr.some(obstacles => {
+            if (this.bluetank.posY + nextY <= obstacles.posY + obstacles.height &&
+                this.bluetank.posY + nextY + this.bluetank.height + 2 >= obstacles.posY &&
+                this.bluetank.posX + nextX + this.bluetank.width - 1 >= obstacles.posX &&
+                this.bluetank.posX + nextX - 2 <= obstacles.posX + obstacles.width) {
+                return true
+            } else {
+                return false
+            }
+        })
+    },
+
     collissionBlueMap(nextX, nextY) {
         if (this.bluetank.posX + nextX < 0 || this.bluetank.posX + this.bluetank.width + nextX > this.width ||
             this.bluetank.posY + nextY < 0 || this.bluetank.posY + this.bluetank.height + nextY > this.height) {
@@ -130,6 +152,19 @@ const Game = {
         } else {
             return false
         }
+    },
+
+    collisionRedObstacleArr: function (nextX, nextY) {
+        return this.obstaclesarr.some(obstacles => {
+            if (this.redtank.posY + nextY <= obstacles.posY + obstacles.height &&
+                this.redtank.posY + nextY + this.redtank.height + 1 >= obstacles.posY &&
+                this.redtank.posX + nextX + this.redtank.width - 1 >= obstacles.posX &&
+                this.redtank.posX + nextX - 2 <= obstacles.posX + obstacles.width) {
+                return true
+            } else {
+                return false
+            }
+        })
     },
 
     collisionRedObstacle(nextX, nextY) {
@@ -185,6 +220,17 @@ const Game = {
 
     clearBullets: function () {
 
+        this.bluetank.blueBullets.some((bullet, idx) => {
+            this.obstaclesarr.some(obstacles => {
+                if (bullet.posY - bullet.radius <= obstacles.posY + obstacles.height - 15 &&
+                    bullet.posY + bullet.radius >= obstacles.posY - 50 &&
+                    bullet.posX - bullet.radius >= obstacles.posX - 50 &&
+                    bullet.posX + bullet.radius <= obstacles.posX + obstacles.width) {
+                    this.bluetank.blueBullets.splice(idx, 1)
+                }
+            })
+        })
+
         this.bluetank.blueBullets.forEach((bullet, idx) => {
             if (bullet.posX - bullet.radius < 0 - 20 || bullet.posX + bullet.radius > this.width + 20 ||
                 bullet.posY - bullet.radius < 0 - 20 || bullet.posY + bullet.radius > this.height + 20) {
@@ -196,6 +242,17 @@ const Game = {
                 bullet.posX + bullet.radius <= this.obstacles.posX + this.obstacles.width - 15) {
                 this.bluetank.blueBullets.splice(idx, 1)
             }
+        })
+
+        this.redtank.redbullets.some((bullet, idx) => {
+            this.obstaclesarr.some(obstacles => {
+                if (bullet.posY - bullet.radius <= obstacles.posY + obstacles.height + 40 &&
+                    bullet.posY + bullet.radius >= obstacles.posY && //b
+                    bullet.posX - bullet.radius >= obstacles.posX - 30 && // b
+                    bullet.posX + bullet.radius <= obstacles.posX + obstacles.width + 30) { //b
+                    this.redtank.redbullets.splice(idx, 1)
+                }
+            })
         })
 
         this.redtank.redbullets.forEach((bullet, idx) => {
